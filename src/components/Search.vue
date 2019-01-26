@@ -1,14 +1,22 @@
 <template>
   <div class="search">
-    <input type="text" class="search__input" name="search__input" placeholder="Search for a country...">
+    <input type="text" class="search__input" name="search__input" placeholder="Search for a country..." v-model="searchText" @keyup.enter="getCountry($event)">
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Emit } from 'vue-property-decorator';
+import CountriesApi from '../services/api/countries';
 
 @Component
-export default class Search extends Vue {}
+export default class Search extends Vue {
+    private searchText: string = '';
+
+    @Emit()
+    private getCountry() {
+        return this.searchText;
+    }
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <div id="content">
-      <Header />
-      <Home />
+      <Header @reset-page="resetPage" />
+      <Home v-if="results.length == 0" @get-country="getCountry" />
+      <Result v-else :results="results" />
     </div>
 
     <Footer />
@@ -10,19 +11,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import Header from './components/Header.vue';
 import Home from './components/Home.vue';
 import Footer from './components/Footer.vue';
+import Result from './components/Result.vue';
+import Country from '@/types/country';
+import CountriesApi from './services/api/countries';
 
 @Component({
   components: {
     Header,
     Home,
     Footer,
+    Result,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private results: Country[] = [];
+
+  private api: CountriesApi = new CountriesApi('https://restcountries.eu/rest/v2');
+
+  public async getCountry(countryName: string) {
+    this.results = await this.api.get(countryName);
+  }
+
+  public async resetPage() {
+    this.results = [];
+  }
+}
 </script>
 
 <style lang="scss">

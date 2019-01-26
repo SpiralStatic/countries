@@ -1,11 +1,11 @@
 <template>
   <main id="home">
-    <Search />
+    <Search @get-country="getCountry"/>
   </main>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Emit, Vue } from 'vue-property-decorator';
 import Search from './Search.vue';
 
 @Component({
@@ -13,7 +13,12 @@ import Search from './Search.vue';
     Search,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+    @Emit()
+    private getCountry(searchText: string) {
+        return searchText;
+    }
+}
 </script>
 
 <style scoped lang="scss">

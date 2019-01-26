@@ -1,14 +1,19 @@
 <template>
   <header id="header">
-    <h1 class="header__title">Countries</h1>
+    <h1 class="header__title" @click="resetPage">Countries</h1>
   </header>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Emit, Vue } from 'vue-property-decorator';
 
 @Component
-export default class Header extends Vue {}
+export default class Header extends Vue {
+  @Emit()
+  private resetPage() {
+      return;
+  }
+}
 </script>
 
 <style scoped lang="scss">
