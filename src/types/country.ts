@@ -6,4 +6,11 @@ export default interface Country {
     subregion: string;
     population: number;
     flag: string;
+    latlng: number[];
+    area: number;
+    languages: Language[];
+}
+
+export interface Language {
+    name: string;
 }

@@ -2,8 +2,8 @@
   <div id="app">
     <div id="content">
       <Header @reset-page="resetPage" />
-      <Home v-if="results.length == 0" @get-country="getCountry" />
-      <Result v-else :results="results" @perform-search="getCountry" />
+      <Home v-if="results.length == 0" @get-country="getCountry" :no-results-error="errors.noResultsError" />
+      <Result v-else :results="results" @perform-search="filterCountry" />
     </div>
 
     <Footer />
@@ -29,11 +29,23 @@ import CountriesApi from './services/api/countries';
 })
 export default class App extends Vue {
   private results: Country[] = [];
+  private errors = {
+    noResultsError: false,
+  };
 
   private api: CountriesApi = new CountriesApi('https://restcountries.eu/rest/v2');
 
   private async getCountry(countryName: string) {
-    this.results = await this.api.get(countryName);
+    if (countryName === '') {
+      return;
+    }
+
+    try {
+      this.errors.noResultsError = false;
+      this.results = await this.api.get(countryName);
+    } catch (error) {
+      this.errors.noResultsError = true;
+    }
   }
 
   private filterCountry(countryName: string) {
@@ -66,5 +78,10 @@ html, body {
 #content {
   min-height: 100%;
   margin-bottom: -60px;
+}
+
+sup { 
+  vertical-align: super;
+  font-size: xx-small;
 }
 </style>

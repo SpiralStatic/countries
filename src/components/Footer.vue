@@ -1,7 +1,10 @@
 <template>
   <footer id="footer">
-    <p class="footer__text">Powered by Vue</p>
-    <img class="footer__image" alt="Vue logo" src="../assets/logo.png"/>
+    <p>Thanks to <a href="https://restcountries.eu/">REST Countries API</a></p>
+    <div class="vue__info">
+      <p>Powered by Vue</p>
+      <img class="vue__image" alt="Vue logo" src="../assets/logo.png"/>
+    </div>
   </footer>
 </template>
 
@@ -15,18 +18,19 @@ export default class Footer extends Vue {}
 <style scoped lang="scss">
 #footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: 40px;
   padding: 10px 30px;
+  line-height: 40px;
+  color: slategrey;
 
-  .footer__text {
-    line-height: 40px;
-    color: slategrey;
-  }
+  .vue__info {
+    display: flex;
 
-  .footer__image {
-    width: 40px;
-    height: 40px;
+    .vue__image {
+      width: 40px;
+      height: 40px;
+    }
   }
 }
 </style>

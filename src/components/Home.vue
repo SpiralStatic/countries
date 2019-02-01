@@ -1,11 +1,11 @@
 <template>
   <main id="home">
-    <Search @get-country="getCountry"/>
+    <Search @get-country="getCountry" :no-results-error="noResultsError" />
   </main>
 </template>
 
 <script lang="ts">
-import { Component, Emit, Vue } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 import Search from './Search.vue';
 
 @Component({
@@ -14,6 +14,9 @@ import Search from './Search.vue';
   },
 })
 export default class Home extends Vue {
+    @Prop()
+    private noResultsError!: boolean;
+
     @Emit()
     private getCountry(searchText: string) {
         return searchText;
