@@ -3,7 +3,7 @@
     <div id="content">
       <Header @reset-page="resetPage" />
       <Home v-if="results.length == 0" @get-country="getCountry" />
-      <Result v-else :results="results" />
+      <Result v-else :results="results" @perform-search="getCountry" />
     </div>
 
     <Footer />
@@ -32,11 +32,17 @@ export default class App extends Vue {
 
   private api: CountriesApi = new CountriesApi('https://restcountries.eu/rest/v2');
 
-  public async getCountry(countryName: string) {
+  private async getCountry(countryName: string) {
     this.results = await this.api.get(countryName);
   }
 
-  public async resetPage() {
+  private filterCountry(countryName: string) {
+    this.results = this.results.filter((country) => {
+      return country.name === countryName;
+    });
+  }
+
+  private resetPage() {
     this.results = [];
   }
 }

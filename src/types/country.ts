@@ -3,6 +3,7 @@ export default interface Country {
     capital: string;
     altSpellings: string;
     region: string;
+    subregion: string;
     population: number;
     flag: string;
 }

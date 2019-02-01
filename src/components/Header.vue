@@ -25,6 +25,10 @@ export default class Header extends Vue {
   .header__title {
     color: slategrey;
     font-size: 2rem;
+    
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 </style>
