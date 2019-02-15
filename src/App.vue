@@ -2,8 +2,8 @@
   <div id="app">
     <div id="content">
       <Header @reset-page="resetPage" />
-      <Home v-if="results.length == 0" @get-country="getCountry" :no-results-error="errors.noResultsError" />
-      <Result v-else :results="results" @perform-search="filterCountry" />
+      <Home v-if="results.length == 0" @get-country="getCountryByName" :no-results-error="errors.noResultsError" />
+      <Result v-else :results-prop="results" :bordered-countries-prop="borderedCountries" @perform-search-by-name="filterCountry" @perform-search-by-code="getCountriesByCode"/>
     </div>
 
     <Footer />
@@ -29,13 +29,14 @@ import CountriesApi from './services/api/countries';
 })
 export default class App extends Vue {
   private results: Country[] = [];
+  private borderedCountries: Country[] = [];
   private errors = {
     noResultsError: false,
   };
 
   private api: CountriesApi = new CountriesApi('https://restcountries.eu/rest/v2');
 
-  private async getCountry(countryName: string) {
+  private async getCountryByName(countryName: string) {
     if (countryName === '') {
       return;
     }
@@ -48,8 +49,16 @@ export default class App extends Vue {
     }
   }
 
+  private async getCountriesByCode(countryCodes: string[]) {
+    if (countryCodes.length === 0) {
+      return;
+    }
+
+    this.borderedCountries = await this.api.getByCode(countryCodes);
+  }
+
   private filterCountry(countryName: string) {
-    this.results = this.results.filter((country) => {
+    this.results = this.results.concat(this.borderedCountries).filter((country) => {
       return country.name === countryName;
     });
   }
@@ -76,8 +85,7 @@ html, body {
 }
 
 #content {
-  min-height: 100%;
-  margin-bottom: -60px;
+  min-height: calc(100% - 60px);
 }
 
 sup { 

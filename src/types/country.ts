@@ -9,6 +9,7 @@ export default interface Country {
     latlng: number[];
     area: number;
     languages: Language[];
+    borders: string[];
 }
 
 export interface Language {
